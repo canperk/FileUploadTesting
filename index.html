@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" />
+</head>
+
+<body class="container">
+    <div class="jumbotron">
+        <h2>Uploading Files Programmatically</h2>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Basic Form</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="label">File</label>
+                    <input id="inpFile" type="file" class="form-control" />
+                </div>
+                <button class="btn btn-success" id="btnSetter">Set Files</button>
+                <button class="btn btn-primary" id="btnDownloader">Download</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/docs/3.3/dist/js/bootstrap.min.js"></script>
+    <script>
+        btnSetter.onclick = function () {
+            var file1 = new File(["Can PERK"], "can.txt");
+            var file2 = new File(["Berk ARSLAN"], "berk.txt");
+            var dt = new DataTransfer();
+            dt.items.add(file1);
+            dt.items.add(file2);
+            inpFile.files = dt.files;
+        }
+        btnDownloader.onclick = function () {
+            var files = inpFile.files;
+            if (files.length == 0) {
+                alert("No file found");
+                return;
+            }
+
+            for (var f = 0; f < files.length; f++) {
+                var file = files[f];
+                var a = document.createElement("a");
+                var url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = file.name;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                var url = URL.createObjectURL(file);
+                window.URL.revokeObjectURL(url);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
